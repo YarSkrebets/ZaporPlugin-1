@@ -1,5 +1,6 @@
 package ru.danka.zapor;
 
+import net.minecraft.server.v1_12_R1.Block;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -47,6 +49,36 @@ public final class ZaporPlugin extends JavaPlugin {
 
             player.getInventory().addItem(item);
             
+            return true;
+        });
+
+        getCommand("габрираЗапор").setExecutor((sender, command, label, args)->{
+            Player player = (Player) sender;
+            //по запористому
+//            Location location = player.getLocation();
+//            location.add(5,5,5);
+            //заебись
+//            Location location = player.getLocation();
+//            location.add(location.getDirection().multiply(5));
+//            location.add(0,2,0);
+            Location target = player.getTargetBlock(null, 30).getLocation();
+            target.add(0,1,0);
+            Skeleton skeleton = target.getWorld().spawn(target, Skeleton.class);
+            skeleton.getEquipment().setItemInMainHand(new ItemStack(Material.GOLD_SWORD));
+            skeleton.setCustomName(ChatColor.GOLD + "ДОЛБАЕБ С ЗОЛОТЫМ МЕЧОМ");
+            skeleton.setCustomNameVisible(true);
+            return true;
+        });
+
+        getCommand("лехаблять").setExecutor((sender, command, label, args) ->{
+            Player player = (Player) sender;
+            player.getEquipment().setBoots(new ItemStack(Material.DIAMOND_BOOTS));
+            player.getEquipment().setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
+            player.getEquipment().setHelmet(new ItemStack(Material.DIAMOND_HELMET));
+            player.getEquipment().setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
+            player.getEquipment().setItemInMainHand(new ItemStack(Material.DIAMOND_SWORD));
+            //player.setFlying(true); не работает да и хуй с ним
+
             return true;
         });
         Bukkit.getPluginManager().registerEvents(new ZaporListener(this), this);
