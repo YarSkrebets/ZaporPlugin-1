@@ -7,12 +7,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Optional;
 import java.util.Random;
 
 public final class ZaporPlugin extends JavaPlugin {
@@ -105,6 +104,36 @@ public final class ZaporPlugin extends JavaPlugin {
             return true;
         });
 
+
+
+        getCommand("якубовна").setExecutor((sender, command, label, args) -> {
+            Player player = (Player) sender;
+            Location target = player.getTargetBlock(null, 30).getLocation();
+            target.add(0, 1, 0);
+            Wolf wolf = target.getWorld().spawn(target, Wolf.class);
+            wolf.setTamed(true);
+            wolf.setOwner(player);
+            wolf.setCustomName(ChatColor.GOLD + "Якубовна");
+            wolf.setCustomNameVisible(true);
+
+
+            return true;
+        });
+
+        getCommand("погладить").setExecutor((sender, command, label, args) -> {
+            Player player = (Player) sender;
+            Optional<Entity> entity = player.getWorld().getNearbyEntities(player.getTargetBlock(null,30).getLocation(), 5, 5, 5).stream().min((e1, e2) -> {
+                return (int) (distance(player, e2) - distance(player, e1));
+            });
+            if (entity.isPresent()) {
+                player.sendMessage("* " + player.getDisplayName() + " погладил " + entity.get().getCustomName());
+            } else {
+                player.sendMessage("Вы не можете никого погладить");
+            }
+
+            return true;
+        });
+
         getCommand("писюн").setExecutor((sender, command, label, args) -> {
             Player player = (Player) sender;
             Location target = player.getTargetBlock(null, 30).getLocation();
@@ -121,8 +150,27 @@ public final class ZaporPlugin extends JavaPlugin {
 
             return true;
         });
+
+        getCommand("запористыйинвентарь").setExecutor((sender, command, label, args) ->{
+            ZaporInventory zaporInventory = new ZaporInventory();
+            zaporInventory.createInventory((Player) sender);
+
+            return true;
+        });
+
+        getCommand("загадка").setExecutor((sender, command, label, args) -> {
+            ZaporRiddle zaporRiddle = new ZaporRiddle();
+            zaporRiddle.createRiddleInventory((Player) sender);
+
+            return true;
+        });
+
         Bukkit.getPluginManager().registerEvents(new ZaporListener(this), this);
 
+    }
+
+    private double distance(Entity e, Entity e2) {
+        return e.getLocation().distanceSquared(e2.getLocation());
     }
 
     public static String createRainbowMessage(String message) {

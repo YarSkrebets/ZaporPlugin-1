@@ -3,7 +3,7 @@
  * Copyright (c) 2019.
  */
 
-package ru.sonicxd2.nemida.item;
+package ru.danka.zapor;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
