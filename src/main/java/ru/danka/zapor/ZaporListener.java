@@ -102,6 +102,7 @@ public class ZaporListener implements Listener {
             Location location = e.getWhoClicked().getLocation();
             Location location1 = e.getWhoClicked().getLocation();
             location.add (0,10,0);
+            location1.add (0,2,0);
             e.getWhoClicked().closeInventory();
             for (int i = 0; i < 64; i++) {
                 location.add(0,i,0);
@@ -117,11 +118,10 @@ public class ZaporListener implements Listener {
             dolbaeb.sendTitle(ChatColor.MAGIC +"ШИЛО ТАРАКАНЫ", ChatColor.MAGIC +"АУЕ БРАТ", 20,20,20);
             e.getWhoClicked().closeInventory();
             Location location = e.getWhoClicked().getLocation();
-            Silverfish silverfish = location.getWorld().spawn(location, Silverfish.class);
-            silverfish.setCustomName(ChatColor.MAGIC +"ТАРАКАНЫ");
-            silverfish.setCustomNameVisible(true);
             for (int i = 0; i < 20; i++) {
-                 location.getWorld().spawn(location, Silverfish.class);
+                Silverfish silverfish = location.getWorld().spawn(location, Silverfish.class);
+                silverfish.setCustomName(ChatColor.DARK_GREEN +"ТАРАКАНЫ");
+                silverfish.setCustomNameVisible(true);
 
             }
 
